@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Eatery</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-center">Hot Restaurant</h1>
+        <h3 class="text-center">Stop in and Eat or we'll both stare!</h3>
+        <hr />
+        <div class="d-flex justify-content-center">
+          <a href="./makeres"
+            ><button class="btn btn-primary btn-lg">Make Reservation</button></a
+          >
+          <a href="./viewres"
+            ><button class="btn btn-warning btn-lg">See Reservations</button></a
+          >
+          <a href="./"
+            ><button class="btn btn-secondary btn-lg">Home</button></a
+          >
+        </div>
+      </div>
+      <!-- --Current Reservations Table -->
+      ​
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3><strong>Current Reservations</strong></h3>
+            </div>
+            <div class="card-body" id="currentResTable"></div>
+          </div>
+        </div>
+      </div>
+      ​
+      <div class="row" style="padding: .5rem"></div>
+      <!-- Waitlis table -->
+      ​
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3><strong>Wait List</strong></h3>
+            </div>
+            <div class="card-body" id="waitlistTable"></div>
+          </div>
+        </div>
+      </div>
+      ​
+      <footer class="footer mt-auto py-3">
+        <div class="container">
+          <a href="/api/reservations"
+            ><span class="text-muted">API Table Link.</span></a
+          >
+          <span>|</span>
+          <a href="/api/waitlist">
+            <span class="text-muted">API Wait List</span></a
+          >
+        </div>
+      </footer>
+    </div>
+    ​
+  </body>
+
+  <script>
+    $.get("/api/reservations").then(function(response) {
+      response.forEach(element => {
+        // console.log(element.name, element.phoneNumber);
+        let resName = $("<h4>");
+
+        resName.addClass("card-header");
+        resName.text(element.name);
+
+        let entryCard = $("<div>");
+        entryCard.addClass("card-body");
+
+        let resPhone = $("<li>");
+        resPhone.text(element.phoneNumber);
+        resPhone.css("padding", "0.5rem");
+        resPhone.addClass("card-text");
+
+        let resEmail = $("<li>");
+        resEmail.text(element.email);
+        resEmail.css("padding", "0.5rem");
+        resEmail.addClass("card-text");
+
+        let resEntry = $("<div>");
+        resEntry.addClass("card");
+        resEntry.css("margin-bottom", "1rem");
+
+        resEntry
+          .append(resName)
+          .append(resPhone)
+          .append(resEmail);
+
+        $("#currentResTable").append(resEntry);
+      });
+    });
+
+    $.get("/api/waitlist").then(function(response) {
+      response.forEach(element => {
+        // console.log(element.name, element.phoneNumber);
+        let resName = $("<h4>");
+
+        resName.addClass("card-header");
+        resName.text(element.name);
+
+        let entryCard = $("<div>");
+        entryCard.addClass("card-body");
+
+        let resPhone = $("<li>");
+        resPhone.text(element.phoneNumber);
+        resPhone.css("padding", "0.5rem");
+        resPhone.addClass("card-text");
+
+        let resEmail = $("<li>");
+        resEmail.text(element.email);
+        resEmail.css("padding", "0.5rem");
+        resEmail.addClass("card-text");
+
+        let resEntry = $("<div>");
+        resEntry.attr("margin-bottom", "1rem");
+        resEntry.css("margin-bottom", "1rem");
+
+        resEntry
+          .append(resName)
+          .append(resPhone)
+          .append(resEmail);
+
+        $("#waitlistTable").append(resEntry);
+      });
+    });
+  </script>
+</html>
